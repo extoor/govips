@@ -83,18 +83,14 @@ func Startup(config *Config) {
 		}
 
 		C.vips_leak_set(toGboolean(config.ReportLeaks))
+		C.vips_cache_set_max(C.int(config.MaxCacheSize))
+		C.vips_cache_set_max_mem(C.size_t(config.MaxCacheMem))
 
 		if config.ConcurrencyLevel > 0 {
 			C.vips_concurrency_set(C.int(config.ConcurrencyLevel))
 		}
 		if config.MaxCacheFiles > 0 {
 			C.vips_cache_set_max_files(C.int(config.MaxCacheFiles))
-		}
-		if config.MaxCacheMem > 0 {
-			C.vips_cache_set_max_mem(C.size_t(config.MaxCacheMem))
-		}
-		if config.MaxCacheSize > 0 {
-			C.vips_cache_set_max(C.int(config.MaxCacheSize))
 		}
 		if config.CacheTrace {
 			C.vips_cache_set_trace(toGboolean(true))
